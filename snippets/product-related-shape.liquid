@@ -1,0 +1,67 @@
+{% assign styleTag = false %}
+{% assign shapeTag = false %}
+{% assign temp_products_to_output = '' %}
+{% assign products_to_output = '' %}
+{% assign productTitle = product.title | replace: ".", "-" %}
+
+{% comment %}
+	This loops through the current products tag and grabs the full style and shape tags from it.
+{% endcomment %}
+{% for tag in product.tags %}
+	{% if tag contains "style-" %}
+		{% assign styleTag = tag %}
+	{% elsif tag contains "shape-" %}
+		{% assign shapeTag = tag %}
+	{% endif %}
+{% endfor %}
+
+
+{% comment %}
+	This loops through the products in the collection with the same title as the product
+	Then it loops through each products tags and if the tag contains shape- and it isnt the current product, it pushes it to a temp array.
+{% endcomment %}
+
+{% for Product in collections[productTitle].products %}
+	{% for prodTag in Product.tags %}
+		{% if prodTag contains "shape-" %}
+			{% unless prodTag == shapeTag %} {% comment %} If the product tag is the current product {% endcomment %}
+				{% assign prodtoAdd = Product.handle | append: ',' %} 
+				{% assign temp_products_to_output = temp_products_to_output | append: prodtoAdd %}
+			{% endunless %}
+		{% endif %}
+	{% endfor %}
+{% endfor %}
+
+{% comment %}
+	This loops through the products in the temp array from above and loops through the tags on them again
+	Then if the style is the same as the current products style eg both colour, it will push those products to another array.
+{% endcomment %}
+{% assign tempPTO = temp_products_to_output | split: ',' %}
+{% for Product in tempPTO %}
+	{% for prodTag in all_products[Product].tags %}
+		{% if prodTag == styleTag %}
+
+			{% assign prodtoAdd = Product | append: ',' %} 
+			{% assign products_to_output = products_to_output | append: prodtoAdd %}
+			{% break %}
+		{% endif %}
+	{% endfor %}
+{% endfor %}
+
+{% comment %}
+	This loops through the products in the new array from above and outputs the products.
+	it also checks to see if there are products in the array.
+{% endcomment %}
+{% assign outputArray = products_to_output | split: ',' %}
+{% assign arrayLen = outputArray | size %}
+{% if arrayLen > 0 %}
+	<div class="related-shapes">
+		<h4>Other Styles</h4>
+		{% for Product in outputArray %}
+		{% assign productObject = all_products[Product] %}
+			<div class="related-shape">
+				<a href="{{ all_products[Product].url }}"><img src="{{ productObject | img_url }}" /></a>
+			</div>
+		{% endfor %}
+	</div>
+{% endif %}

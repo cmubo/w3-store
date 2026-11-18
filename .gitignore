@@ -1,0 +1,51 @@
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+
+# Editors / IDEs
+.idea/
+*.swp
+*.swo
+*~
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+
+# Shopify CLI
+.shopify/
+
+# Theme environment config (may contain store passwords / theme IDs)
+shopify.theme.toml
+
+# Node (if you add a build step later)
+node_modules/
+dist/
+.npm
+.pnpm-store/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Env / secrets
+.env
+.env.*
+!.env.example
+
+# Packages / releases
+*.zip
+release/
+listings/
+
+# Misc
+*.local
+.cache/
+tmp/
+temp/

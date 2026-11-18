@@ -1,0 +1,19 @@
+# Copy to shopify.theme.toml and fill in your store / theme IDs.
+# shopify.theme.toml is gitignored — never commit passwords.
+
+# Development store
+[environments.development]
+store = "your-store.myshopify.com"
+# theme = "123456789012"
+# password = "shptka_..."   # optional; prefer `shopify auth login`
+
+# Staging
+[environments.staging]
+store = "your-store.myshopify.com"
+# theme = "123456789012"
+
+# Production (live theme — use with care)
+[environments.production]
+store = "your-store.myshopify.com"
+# theme = "123456789012"
+# allow-live = true

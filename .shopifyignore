@@ -1,0 +1,28 @@
+# Excluded from Shopify CLI push / pull / package / share
+# (separate from .gitignore — CLI does not read .gitignore for these ops)
+
+# Repo / tooling
+.git/
+.github/
+.cursor/
+.vscode/
+.gitignore
+.shopifyignore
+.theme-check.yml
+README.md
+shopify.theme.toml
+shopify.theme.toml.example
+
+# Node / build (if added later)
+node_modules/
+src/
+dist/
+package.json
+pnpm-lock.yaml
+package-lock.json
+yarn.lock
+*.config.js
+*.config.mjs
+*.config.cjs
+.env
+.env.*
