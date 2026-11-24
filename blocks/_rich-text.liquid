@@ -1,0 +1,116 @@
+{% liquid
+  assign font = block.settings.font
+  assign font_size = block.settings.font_size
+  assign font_size_mobile = block.settings.font_size_mobile
+  assign alignment = block.settings.text_alignment | default: 'center'
+%}
+
+{% style %}
+  {{ font | font_face: font_display: 'swap' }}
+
+  .hero-rich-text--{{ block.id }},
+  .hero-rich-text--{{ block.id }} p,
+  .hero-rich-text--{{ block.id }} li {
+    font-family: {{ font.family }}, {{ font.fallback_families }};
+    font-weight: {{ font.weight }};
+    font-style: {{ font.style }};
+    font-size: {{ font_size_mobile }}px;
+  }
+
+  .hero-rich-text--{{ block.id }} {
+    margin: 0;
+    text-align: {{ alignment }};
+    width: 100%;
+  }
+
+  .hero-rich-text--{{ block.id }} strong,
+  .hero-rich-text--{{ block.id }} b {
+    font-weight: 700;
+  }
+
+  .hero-rich-text--{{ block.id }} > *:first-child {
+    margin-top: 0;
+  }
+
+  .hero-rich-text--{{ block.id }} > *:last-child {
+    margin-bottom: 0;
+  }
+
+  .hero-rich-text--{{ block.id }} p {
+    margin: 0 0 0.35em;
+  }
+
+  .hero-rich-text--{{ block.id }} p:last-child {
+    margin-bottom: 0;
+  }
+
+  @media screen and (min-width: 769px) {
+    .hero-rich-text--{{ block.id }},
+    .hero-rich-text--{{ block.id }} p,
+    .hero-rich-text--{{ block.id }} li {
+      font-size: {{ font_size }}px;
+    }
+  }
+{% endstyle %}
+
+<div class="hero__rich-text rte hero-rich-text--{{ block.id }}" {{ block.shopify_attributes }}>
+  {% if block.settings.text != blank %}
+    {{ block.settings.text }}
+  {% endif %}
+</div>
+
+{% schema %}
+{
+  "name": "Rich text",
+  "settings": [
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text",
+      "default": "<p>Hero Banner</p>"
+    },
+    {
+      "type": "font_picker",
+      "id": "font",
+      "label": "Font",
+      "default": "neue_haas_unica_n4"
+    },
+    {
+      "type": "range",
+      "id": "font_size",
+      "label": "Font size",
+      "min": 10,
+      "max": 120,
+      "step": 2,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "font_size_mobile",
+      "label": "Font size (mobile)",
+      "min": 10,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "label": "Alignment",
+      "default": "center",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Rich text"
+    }
+  ]
+}
+{% endschema %}
