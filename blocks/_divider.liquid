@@ -1,0 +1,69 @@
+{% assign thickness = block.settings.thickness | default: 1 %}
+{% assign color = block.settings.color | default: '#000000' %}
+{% assign width = block.settings.width | default: 100 %}
+{% assign spacing = block.settings.spacing | default: 24 %}
+
+<div
+  class="hero__divider"
+  style="padding-top: {{ spacing }}px; padding-bottom: {{ spacing }}px;"
+  {{ block.shopify_attributes }}
+>
+  <hr
+    class="hero__divider-line"
+    style="
+      border: 0;
+      border-top: {{ thickness }}px solid {{ color }};
+      width: {{ width }}%;
+      margin: 0 auto;
+    "
+  >
+</div>
+
+{% schema %}
+{
+  "name": "Divider",
+  "settings": [
+    {
+      "type": "range",
+      "id": "thickness",
+      "label": "Thickness",
+      "min": 1,
+      "max": 8,
+      "step": 1,
+      "unit": "px",
+      "default": 1
+    },
+    {
+      "type": "color",
+      "id": "color",
+      "label": "Color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "width",
+      "label": "Width",
+      "min": 10,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "spacing",
+      "label": "Vertical spacing",
+      "min": 0,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "default": 24
+    }
+  ],
+  "presets": [
+    {
+      "name": "Divider"
+    }
+  ]
+}
+{% endschema %}

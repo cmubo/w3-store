@@ -2141,7 +2141,29 @@ $slideshow-indicator-size: 1.25rem;
   }
 }
 
-// The overlay color and opacity is set in slideshow.liquid
+.slideshow-section {
+  position: relative;
+}
+
+// Overlay sits over the whole slideshow (not per-slide)
+// Keep below .header-wrapper / .hero__header ($zindexHeroHeader: 2)
+// Avoid hero__text-* classes — parallax JS targets those
+.slideshow-section > .slideshow__overlay {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+  pointer-events: none;
+
+  a,
+  button {
+    pointer-events: auto;
+  }
+}
+
+// The overlay color and opacity is set in _slideshow-overlay.liquid
 .slideshow__overlay:before {
   content: '';
   position: absolute;
@@ -2150,6 +2172,133 @@ $slideshow-indicator-size: 1.25rem;
   bottom: 0;
   left: 0;
   z-index: 0;
+}
+
+.slideshow__overlay--column:before {
+  right: auto;
+  width: 25%;
+  max-width: 20rem;
+}
+
+.slideshow__overlay--column .slideshow-overlay__align {
+  display: block;
+  width: 25%;
+  max-width: 20rem;
+  height: 100%;
+}
+
+.slideshow-overlay__align {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.slideshow-overlay__content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 0.94rem 1.5rem;
+  position: relative;
+  z-index: 1;
+  pointer-events: auto;
+  opacity: 1;
+}
+
+.slideshow__overlay .slideshow-overlay__content > .shopify-block {
+  width: 100%;
+}
+
+/*================ Mobile: static block below the slideshow (no absolute/parallax) ================*/
+@include at-query($max, $medium) {
+  .slideshow-section {
+    display: block;
+  }
+
+  .hero.hero--full-height,
+  .hero[data-fullscreen="true"],
+  .hero[data-adapt="false"] {
+    height: 100vh !important;
+    height: 100dvh !important;
+    max-height: none;
+    min-height: 0;
+    margin-bottom: 0;
+  }
+
+  .hero .slick-list,
+  .hero .slick-track,
+  .hero .slick-slide,
+  .hero__slide {
+    height: 100% !important;
+    min-height: 0 !important;
+  }
+
+  .hero__image,
+  .hero .hero__image,
+  .hero__slide .placeholder-background {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    max-height: none;
+    min-height: 0;
+    object-fit: cover;
+  }
+
+  .slideshow-section > .slideshow__overlay {
+    display: block;
+    // relative (not static) so :before is contained here, not .slideshow-section
+    position: relative;
+    top: auto;
+    right: auto;
+    bottom: auto;
+    left: auto;
+    width: 100%;
+    height: auto;
+    z-index: auto;
+    pointer-events: auto;
+    transform: none !important;
+  }
+
+  .slideshow__overlay:before,
+  .hero[data-adapt="false"] .slideshow__overlay:before {
+    height: auto !important;
+    min-height: 0 !important;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+
+  .slideshow__overlay--column:before,
+  .slideshow__overlay--fullScreen:before {
+    width: 100%;
+    max-width: none;
+    right: 0;
+  }
+
+  .slideshow__overlay--column .slideshow-overlay__align,
+  .slideshow-overlay__align {
+    display: block;
+    width: 100%;
+    max-width: none;
+    height: auto;
+    transform: none !important;
+  }
+
+  .slideshow-overlay__content {
+    display: block;
+    width: 100%;
+    height: auto;
+    padding: 1.5rem 1rem;
+    transform: none !important;
+  }
 }
 
 .hero__slide--hidden {

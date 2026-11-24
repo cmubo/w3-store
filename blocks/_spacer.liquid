@@ -1,0 +1,25 @@
+<div
+  class="hero__spacer"
+  style="height: {{ block.settings.space }}px;"
+  aria-hidden="true"
+  {{ block.shopify_attributes }}
+></div>
+
+{% schema %}
+{
+  "name": "Spacer",
+  "settings": [
+    {
+      "type": "number",
+      "id": "space",
+      "label": "Vertical space",
+      "default": 24
+    }
+  ],
+  "presets": [
+    {
+      "name": "Spacer"
+    }
+  ]
+}
+{% endschema %}

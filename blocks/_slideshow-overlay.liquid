@@ -1,0 +1,292 @@
+{% assign overlay_type = block.settings.home_hero_overlay_type | default: 'fullScreen' %}
+{% assign use_custom_blocks = false %}
+{% if block.blocks.size > 0 %}
+  {% assign use_custom_blocks = true %}
+{% endif %}
+
+<style>
+  .slideshow-section--{{ section.id }} .slideshow__overlay:before {
+    background-color: {{ block.settings.color_image_overlay }};
+    opacity: {{ block.settings.image_overlay_opacity | divided_by: 100.00 }};
+  }
+
+  .sale-promo {
+    width: 100%;
+    text-align: left;
+    color: inherit;
+  }
+
+  @media screen and (max-width: 768px) {
+    .sale-promo {
+      text-align: center;
+    }
+  }
+
+  .sale-promo__offer {
+    margin: 0;
+    font-size: 48px;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+
+  .sale-promo__title {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1.25;
+  }
+
+  .sale-promo__label {
+    margin: 0 0 0.35em;
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  .sale-promo__series {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.45;
+  }
+
+  .sale-promo__cta {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.4;
+  }
+
+  .sale-promo__cta strong {
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  .sale-promo__rule {
+    border: 0;
+    margin: 1.1rem 0;
+    width: 100%;
+    height: 0;
+  }
+
+  .sale-promo__gap {
+    height: 0.85rem;
+  }
+
+  @media screen and (min-width: 769px) {
+    .sale-promo__offer {
+      font-size: 72px;
+    }
+
+    .sale-promo__title {
+      font-size: 22px;
+    }
+
+    .sale-promo__label,
+    .sale-promo__series,
+    .sale-promo__cta {
+      font-size: 15px;
+    }
+  }
+
+  @media screen and (min-width: 1200px) {
+    .sale-promo__offer {
+      font-size: 80px;
+    }
+
+    .sale-promo__title {
+      font-size: 24px;
+    }
+
+    .sale-promo__label,
+    .sale-promo__series,
+    .sale-promo__cta {
+      font-size: 17px;
+    }
+  }
+</style>
+
+<div
+  class="slideshow__overlay slideshow__overlay--{{ overlay_type }}"
+  style="color: {{ section.settings.slide_text_color }};"
+  {{ block.shopify_attributes }}
+>
+  <div class="slideshow-overlay__align">
+    <div class="slideshow-overlay__content">
+      {% if use_custom_blocks %}
+        {% content_for 'blocks' %}
+      {% else %}
+        <div class="sale-promo">
+          {% if block.settings.offer_text != blank %}
+            <p class="sale-promo__offer">{{ block.settings.offer_text | escape }}</p>
+          {% endif %}
+
+          <hr class="sale-promo__rule" aria-hidden="true">
+
+          {% if block.settings.title_text != blank %}
+            <p class="sale-promo__title">{{ block.settings.title_text | escape }}</p>
+          {% endif %}
+
+          <div class="sale-promo__gap" aria-hidden="true"></div>
+
+          {% if block.settings.series_label != blank %}
+            <p class="sale-promo__label">{{ block.settings.series_label | escape }}</p>
+          {% endif %}
+
+          <ul class="sale-promo__series">
+            {% if block.settings.series_1 != blank %}
+              <li>{{ block.settings.series_1 | escape }}</li>
+            {% endif %}
+            {% if block.settings.series_2 != blank %}
+              <li>{{ block.settings.series_2 | escape }}</li>
+            {% endif %}
+            {% if block.settings.series_3 != blank %}
+              <li>{{ block.settings.series_3 | escape }}</li>
+            {% endif %}
+          </ul>
+
+          <hr class="sale-promo__rule" aria-hidden="true">
+
+          {% if block.settings.cta_text != blank or block.settings.cta_code != blank %}
+            <p class="sale-promo__cta">
+              {{ block.settings.cta_text | escape }}
+              {% if block.settings.cta_code != blank %}
+                <strong>{{ block.settings.cta_code | escape }}</strong>
+              {% endif %}
+            </p>
+          {% endif %}
+        </div>
+      {% endif %}
+
+      {% unless block.settings.slide_cta == blank %}
+        <a
+          href="{{ block.settings.slide_link }}"
+          style="color: {{ section.settings.slide_button_label_color }}; background-color: {{ section.settings.slide_button_background_color }}"
+          class="btn hero__cta"
+        >
+          {{ block.settings.slide_cta | escape }}
+        </a>
+      {% endunless %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Overlay",
+  "tag": null,
+  "blocks": [
+    { "type": "_spacer" },
+    { "type": "_text" },
+    { "type": "_rich-text" },
+    { "type": "_divider" }
+  ],
+  "settings": [
+    {
+      "type": "header",
+      "content": "Overlay"
+    },
+    {
+      "type": "color",
+      "id": "color_image_overlay",
+      "label": "Overlay",
+      "default": "#ffffff"
+    },
+    {
+      "type": "select",
+      "id": "home_hero_overlay_type",
+      "label": "Overlay type",
+      "default": "column",
+      "options": [
+        {
+          "value": "fullScreen",
+          "label": "Full screen"
+        },
+        {
+          "value": "column",
+          "label": "Column"
+        }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "image_overlay_opacity",
+      "label": "Opacity",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "header",
+      "content": "Sale promo",
+      "info": "Used when no nested text/divider blocks are added. Add blocks in the overlay to override this layout."
+    },
+    {
+      "type": "text",
+      "id": "offer_text",
+      "label": "Offer",
+      "default": "50% off"
+    },
+    {
+      "type": "text",
+      "id": "title_text",
+      "label": "Title",
+      "default": "All original Screenprints"
+    },
+    {
+      "type": "text",
+      "id": "series_label",
+      "label": "Series label",
+      "default": "Including Series"
+    },
+    {
+      "type": "text",
+      "id": "series_1",
+      "label": "Series 1",
+      "default": "Liverpool One"
+    },
+    {
+      "type": "text",
+      "id": "series_2",
+      "label": "Series 2",
+      "default": "The Beatles"
+    },
+    {
+      "type": "text",
+      "id": "series_3",
+      "label": "Series 3",
+      "default": "Mann Island"
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "CTA text",
+      "default": "Contact us and use code"
+    },
+    {
+      "type": "text",
+      "id": "cta_code",
+      "label": "CTA code",
+      "default": "WINTER50"
+    },
+    {
+      "type": "header",
+      "content": "Button"
+    },
+    {
+      "type": "text",
+      "id": "slide_cta",
+      "label": "Button text"
+    },
+    {
+      "type": "url",
+      "id": "slide_link",
+      "label": "Button link"
+    }
+  ]
+}
+{% endschema %}

@@ -13,6 +13,9 @@ README.md
 shopify.theme.toml
 shopify.theme.toml.example
 
+# Shopify compiles *.scss.liquid → don't push plain .scss duplicates
+assets/*.scss
+
 # Node / build (if added later)
 node_modules/
 src/
