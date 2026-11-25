@@ -137,10 +137,11 @@
               "color_image_overlay": "#FFFFFF",
               "home_hero_overlay_type": "column",
               "image_overlay_opacity": 100,
+              "badge_text": "WINTER SALE",
               "offer_text": "50% off",
               "title_text": "All original Screenprints",
               "series_label": "Including Series",
-              "series_1": "Liverpool One",
+              "series_1": "Liverpool ONE",
               "series_2": "The Beatles",
               "series_3": "Mann Island",
               "cta_text": "Contact us and use code",
@@ -802,7 +803,7 @@
           "1571733389315"
         ],
         "settings": {
-          "title": "Liverpool One"
+          "title": "Liverpool ONE"
         }
       },
       "1571758759046": {
