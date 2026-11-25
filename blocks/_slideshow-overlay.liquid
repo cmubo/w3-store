@@ -16,30 +16,50 @@
     color: inherit;
   }
 
+  .sale-promo__badge {
+    display: inline-block;
+    margin: 0 0 0.85rem;
+    padding: 0.35em 0.7em 0.3em;
+    background: #000;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    line-height: 1.2;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .sale-promo__offer {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    margin: 0;
+    overflow: visible;
+  }
+
   @media screen and (max-width: 768px) {
     .sale-promo {
       text-align: center;
     }
-  }
 
-  .sale-promo__offer {
-    margin: 0;
-    font-size: 48px;
-    font-weight: 700;
-    line-height: 1;
-    letter-spacing: -0.02em;
+    .sale-promo__offer {
+      max-width: 280px;
+      margin: 0 auto;
+    }
   }
 
   .sale-promo__title {
     margin: 0;
-    font-size: 18px;
+    font-size: 24px;
     font-weight: 700;
     line-height: 1.25;
   }
 
   .sale-promo__label {
     margin: 0 0 0.35em;
-    font-size: 14px;
+    font-size: 18px;
     font-weight: 700;
   }
 
@@ -47,14 +67,14 @@
     margin: 0;
     padding: 0;
     list-style: none;
-    font-size: 14px;
+    font-size: 23px;
+    line-height: 1.2;
     font-weight: 400;
-    line-height: 1.45;
   }
 
   .sale-promo__cta {
     margin: 0;
-    font-size: 14px;
+    font-size: 19px;
     font-weight: 400;
     line-height: 1.4;
   }
@@ -75,37 +95,59 @@
     height: 0.85rem;
   }
 
+
   @media screen and (min-width: 769px) {
-    .sale-promo__offer {
-      font-size: 72px;
+    .sale-promo__badge {
+      position: absolute;
+      top: 24px;
+      left: 50%;
+      z-index: 2;
+      margin: 0;
+      font-size: 15px;
+      transform: translateX(-50%);
     }
 
     .sale-promo__title {
       font-size: 22px;
+      margin-bottom: 24px;
     }
 
-    .sale-promo__label,
-    .sale-promo__series,
+    .sale-promo__label {
+      font-size: 16px;
+    }
+
     .sale-promo__cta {
       font-size: 15px;
+    }
+
+    .sale-promo__series {
+      font-size: 23px;
+      line-height: 1.2;
     }
   }
 
   @media screen and (min-width: 1200px) {
-    .sale-promo__offer {
-      font-size: 80px;
+    .sale-promo__badge {
+      font-size: 16px;
     }
 
     .sale-promo__title {
       font-size: 24px;
     }
 
-    .sale-promo__label,
-    .sale-promo__series,
+    .sale-promo__label {
+      font-size: 18px;
+    }
+
     .sale-promo__cta {
-      font-size: 17px;
+      font-size: 19px;
+    }
+
+    .sale-promo__series {
+      font-size: 28px;
     }
   }
+
 </style>
 
 <div
@@ -119,9 +161,28 @@
         {% content_for 'blocks' %}
       {% else %}
         <div class="sale-promo">
-          {% if block.settings.offer_text != blank %}
-            <p class="sale-promo__offer">{{ block.settings.offer_text | escape }}</p>
+          {% if block.settings.badge_text != blank %}
+            <p class="sale-promo__badge">{{ block.settings.badge_text | escape }}</p>
           {% endif %}
+
+          <svg
+            class="sale-promo__offer"
+            viewBox="0 0 240 145"
+            xmlns="http://www.w3.org/2000/svg"
+            role="img"
+            aria-label="50% off"
+            focusable="false"
+          >
+            <g
+              fill="currentColor"
+              font-family="'Arial Black', 'Helvetica Neue', Helvetica, Arial, sans-serif"
+              font-weight="900"
+            >
+              <text x="0" y="122" font-size="136" letter-spacing="-8">50</text>
+              <text x="168" y="72" font-size="64" letter-spacing="-2">%</text>
+              <text x="170" y="118" font-size="46" letter-spacing="0">off</text>
+            </g>
+          </svg>
 
           <hr class="sale-promo__rule" aria-hidden="true">
 
@@ -227,6 +288,12 @@
     },
     {
       "type": "text",
+      "id": "badge_text",
+      "label": "Badge",
+      "default": "WINTER SALE"
+    },
+    {
+      "type": "text",
       "id": "offer_text",
       "label": "Offer",
       "default": "50% off"
@@ -247,7 +314,7 @@
       "type": "text",
       "id": "series_1",
       "label": "Series 1",
-      "default": "Liverpool One"
+      "default": "Liverpool ONE"
     },
     {
       "type": "text",

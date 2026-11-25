@@ -216,7 +216,7 @@ theme.Sections.prototype = _.assignIn({}, theme.Sections.prototype, {
  */
 
 theme.Currency = (function() {
-  var moneyFormat = '$';
+  var moneyFormat = '${{amount}}';
 
   function formatMoney(cents, format) {
     if (typeof cents === 'string') {
@@ -801,7 +801,7 @@ var ajaxCart = (function(module, $) {
       addToCartSelector: 'input[type="submit"]',
       cartCountSelector: null,
       cartCostSelector: null,
-      moneyFormat: '$',
+      moneyFormat: '${{amount}}',
       disableAjaxCart: false,
       enableQtySelectors: true
     };
@@ -1909,27 +1909,44 @@ var slickTheme = (function(module, $) {
   };
 
   sizeFullScreen = function() {
+    // On mobile the overlay stacks below the slider — let CSS control height.
+    if (slickTheme.cache.$window.width() <= 768) {
+      settings.$element.css('height', '');
+      return;
+    }
+
     windowHeight = slickTheme.cache.$window.height();
     settings.$element.css('height', windowHeight);
   };
 
   setParallax = function() {
-    $heroText = $('.hero__text-content');
-    $heroImage = $('.hero__image');
+    // Only slide-scoped text — never the section overlay below the hero
+    $heroText = settings.$element.find('.hero__slide .hero__text-content');
+    $heroImage = settings.$element.find('.hero__image');
 
     slickTheme.cache.$window.on('scroll', function() {
+      // Skip parallax on mobile — overlay is a static block under the slider
+      if (slickTheme.cache.$window.width() <= 768) {
+        return;
+      }
       calculateParallax(settings.fullscreen, currentActiveSlide);
     });
   };
 
   calculateParallax = function(parallaxImage, currentSlide) {
+    if (slickTheme.cache.$window.width() <= 768) {
+      return;
+    }
+
     scrolled = slickTheme.cache.$window.scrollTop();
 
-    $($heroText[currentSlide]).css({
-      transform: 'translate3d(0, ' + scrolled / 8 + 'px, 0)'
-    });
+    if ($heroText && $heroText.length) {
+      $($heroText[currentSlide]).css({
+        transform: 'translate3d(0, ' + scrolled / 8 + 'px, 0)'
+      });
+    }
 
-    if (parallaxImage) {
+    if (parallaxImage && $heroImage && $heroImage.length) {
       $($heroImage[currentSlide]).css({
         transform: 'translate3d(0, ' + scrolled / 8 + 'px, 0)'
       });
@@ -3470,3 +3487,4 @@ $(document).ready(function() {
   sections.register('map', theme.Maps);
   sections.register('search', theme.Search);
 });
+
